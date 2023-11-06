@@ -13,7 +13,7 @@ namespace SkillsLab_OOP.Models
         public DepartmentModel Department { get; set; }
         public string Email { get; set; }
         public string NIC { get; set; }
-        public string Phone { get; set; }
+        public int Phone { get; set; }
         public string Role { get; set; }
     }
 }
