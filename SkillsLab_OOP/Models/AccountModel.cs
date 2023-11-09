@@ -13,7 +13,14 @@ namespace SkillsLab_OOP.Models
         public DepartmentModel Department { get; set; }
         public string Email { get; set; }
         public string NIC { get; set; }
-        public string Phone { get; set; }
-        public string Role { get; set; }
+        public string PhoneNumber { get; set; }
+        public EnumRole Role { get; set; }
+    }
+
+    public enum EnumRole
+    {
+        Employee = 0,
+        Manager = 1,
+        Admin = 2
     }
 }

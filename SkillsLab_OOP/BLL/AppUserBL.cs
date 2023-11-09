@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillsLab_OOP.BLL
+namespace SkillsLab_OOP.DAL.Common
 {
     public interface IAppUserBL
     {
-        void LoginUser();
-        void RegisterUser();
+        bool LoginUser();
+        bool RegisterUser();
     }
     internal class AppUserBL : IAppUserBL
     {
-        public void LoginUser() { }
-        public void RegisterUser() { }
+        public bool LoginUser() { throw new NotImplementedException(); }
+        public bool RegisterUser() { throw new NotImplementedException(); }
     }
 }

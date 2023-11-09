@@ -5,22 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillsLab_OOP.BLL
+namespace SkillsLab_OOP.DAL.Common
 {
     public interface IEnrollmentBL
     {
-        void GetEnrollmentById(int EnrollmentId);
-        void GetAllEnrollments();
-        void AddEnrollment(EnrollmentModel model);
-        void UpdateEnrollment(EnrollmentModel model);
-        void DeleteEnrollment(int EnrollmentId);
+        IEnumerable<EnrollmentModel> GetAllEnrollments();
+        EnrollmentModel GetEnrollmentById(int EnrollmentId);
+        bool AddEnrollment(EnrollmentModel model);
+        bool UpdateEnrollment(EnrollmentModel model);
+        bool DeleteEnrollment(int EnrollmentId);
     }
     public class EnrollmentBL : IEnrollmentBL
     {
-        public void GetEnrollmentById(int EnrollmentId) { }
-        public void GetAllEnrollments() { }
-        public void AddEnrollment(EnrollmentModel model) { }
-        public void UpdateEnrollment(EnrollmentModel model) { }
-        public void DeleteEnrollment(int EnrollmentId) { }
+        public IEnumerable<EnrollmentModel> GetAllEnrollments() { throw new NotImplementedException(); }
+        public EnrollmentModel GetEnrollmentById(int EnrollmentId) { throw new NotImplementedException(); }
+        public bool AddEnrollment(EnrollmentModel model) { throw new NotImplementedException(); }
+        public bool UpdateEnrollment(EnrollmentModel model) { throw new NotImplementedException(); }
+        public bool DeleteEnrollment(int EnrollmentId) { throw new NotImplementedException(); }
     }
 }

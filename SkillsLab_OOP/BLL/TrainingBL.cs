@@ -5,22 +5,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillsLab_OOP.BLL
+namespace SkillsLab_OOP.DAL.Common
 {
     public interface ITrainingBL
     {
-        void GetAllTrainings();
-        void GetTrainingById(int TrainingId);
-        void AddTraining(TrainingModel model);
-        void EditTraining(TrainingModel model);
-        void DeleteTraining(int TrainingId);
+        IEnumerable<TrainingModel> GetAllTrainings();
+        TrainingModel GetTrainingById(int TrainingId);
+        bool AddTraining(TrainingModel model);
+        bool UpdateTraining(TrainingModel model);
+        bool DeleteTraining(int TrainingId);
     }
     public class TrainingBL : ITrainingBL
     {
-        public void GetAllTrainings() { }
-        public void GetTrainingById(int TrainingId) { }
-        public void AddTraining(TrainingModel model) { }
-        public void EditTraining(TrainingModel model) { }
-        public void DeleteTraining(int TrainingId) {  }
+        private readonly ITrainingDAL _trainingDAL;
+
+        public TrainingBL()
+        {
+            _trainingDAL = new TrainingDAL();
+        }
+        public TrainingBL(ITrainingDAL trainingDAL)
+        {
+            _trainingDAL = trainingDAL;
+        }
+
+        public IEnumerable<TrainingModel> GetAllTrainings() { throw new NotImplementedException(); }
+        public TrainingModel GetTrainingById(int TrainingId) { throw new NotImplementedException(); }
+        public bool AddTraining(TrainingModel model) { throw new NotImplementedException(); }
+        public bool UpdateTraining(TrainingModel model) { throw new NotImplementedException(); }
+        public bool DeleteTraining(int TrainingId) { throw new NotImplementedException(); }
     }
 }
