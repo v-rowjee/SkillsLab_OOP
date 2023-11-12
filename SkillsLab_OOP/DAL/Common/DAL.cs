@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace JEDI_Carpool.DAL.Common
+namespace SkillsLab_OOP.DAL.Common
 {
     public class DAL
     {

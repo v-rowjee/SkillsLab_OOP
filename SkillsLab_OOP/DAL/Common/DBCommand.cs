@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 
-namespace JEDI_Carpool.DAL.Common
+namespace SkillsLab_OOP.DAL.Common
 {
     public class DBCommand
     {

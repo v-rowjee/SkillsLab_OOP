@@ -11,7 +11,7 @@ namespace SkillsLab_OOP.DAL
     {
         IEnumerable<AccountModel> GetAll();
         AccountModel GetById(int accountId);
-        bool Update(AccountModel model);
+        AccountModel Update(AccountModel model);
         bool Delete(int accountId);
     }
     internal class AccountDAL : IAccountDAL
@@ -26,7 +26,7 @@ namespace SkillsLab_OOP.DAL
             throw new NotImplementedException();
         }
 
-        public bool Update(AccountModel model)
+        public AccountModel Update(AccountModel model)
         {
             throw new NotImplementedException();
         }

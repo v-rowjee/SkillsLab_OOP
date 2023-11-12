@@ -1,4 +1,5 @@
 ﻿using SkillsLab_OOP.Models;
+using SkillsLab_OOP.DAL.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace SkillsLab_OOP.DAL
         IEnumerable<TrainingModel> GetAll();
         TrainingModel GetById(int TrainingId);
         bool Add(TrainingModel model);
-        bool Update(TrainingModel model);
+        TrainingModel Update(TrainingModel model);
         bool Delete(int TrainingId);
     }
     public class TrainingDAL : ITrainingDAL
@@ -32,7 +33,7 @@ namespace SkillsLab_OOP.DAL
             throw new NotImplementedException();
         }
 
-        public bool Update(TrainingModel model)
+        public TrainingModel Update(TrainingModel model)
         {
             throw new NotImplementedException();
         }
