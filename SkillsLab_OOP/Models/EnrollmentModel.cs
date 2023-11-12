@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkillsLab_OOP.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +13,7 @@ namespace SkillsLab_OOP.Models
         public AccountModel Employee { get; set; }
         public TrainingModel Training { get; set; }
         public List<EnrollmentProofModel> EnrollmentProofs { get; set; }
-        public string Status { get; set; }
+        public StatusEnum Status { get; set; }
         public string? Comment { get; set; }
-    }
-
-    public enum EnumStatus
-    {
-        Pending,
-        Approved,
-        Denied
     }
 }

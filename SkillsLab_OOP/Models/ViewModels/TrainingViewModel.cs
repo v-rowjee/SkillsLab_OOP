@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillsLab_OOP.Enums
+namespace SkillsLab_OOP.Models.ViewModels
 {
-    public enum StatusEnum
+    internal class TrainingViewModel
     {
-        Pending = 0,
-        Approved = 1,
-        Denied = 2
     }
 }

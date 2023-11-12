@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillsLab_OOP.Models
+namespace SkillsLab_OOP.Models.ViewModels
 {
-    public class AccountModel
+    public class RegisterViewModel
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public DepartmentModel Department { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
         public string NIC { get; set; }
         public string PhoneNumber { get; set; }
         public RoleEnum Role { get; set; }

@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillsLab_OOP.Models
+namespace SkillsLab_OOP.Models.ViewModels
 {
-    public class AppUserModel
+    public class LoginViewModel
     {
-        public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-
     }
 }
