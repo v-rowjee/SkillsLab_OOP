@@ -1,11 +1,13 @@
 ﻿using SkillsLab_OOP.Models;
+using SkillsLab_OOP.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkillsLab_OOP.DAL.Common;
 
-namespace SkillsLab_OOP.DAL.Common
+namespace SkillsLab_OOP.BL
 {
     public interface IEnrollmentBL
     {
@@ -17,6 +19,17 @@ namespace SkillsLab_OOP.DAL.Common
     }
     public class EnrollmentBL : IEnrollmentBL
     {
+        private readonly IEnrollmentDAL _enrollmentDAL;
+
+        public EnrollmentBL()
+        {
+            _enrollmentDAL = new EnrollmentDAL();
+        }
+        public EnrollmentBL(IEnrollmentDAL enrollmentDAL)
+        {
+            _enrollmentDAL = enrollmentDAL;
+        }
+
         public IEnumerable<EnrollmentModel> GetAllEnrollments() { throw new NotImplementedException(); }
         public EnrollmentModel GetEnrollmentById(int EnrollmentId) { throw new NotImplementedException(); }
         public bool AddEnrollment(EnrollmentModel model) { throw new NotImplementedException(); }

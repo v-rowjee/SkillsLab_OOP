@@ -1,11 +1,12 @@
 ﻿using SkillsLab_OOP.Models;
+using SkillsLab_OOP.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillsLab_OOP.DAL.Common
+namespace SkillsLab_OOP.BL
 {
     public interface ITrainingBL
     {
