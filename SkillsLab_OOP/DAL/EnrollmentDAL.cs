@@ -8,15 +8,7 @@ using System.Threading.Tasks;
 
 namespace SkillsLab_OOP.DAL
 {
-    public interface IEnrollmentDAL
-    {
-        IEnumerable<EnrollmentModel> GetAll();
-        EnrollmentModel GetById(int EnrollmentId);
-        bool Add(EnrollmentModel model);
-        EnrollmentModel Update(EnrollmentModel model);
-        bool Delete(int EnrollmentId);
-    }
-    public class EnrollmentDAL : IEnrollmentDAL
+    public class EnrollmentDAL : IDAL<EnrollmentModel>
     {
         public IEnumerable<EnrollmentModel> GetAll()
         {

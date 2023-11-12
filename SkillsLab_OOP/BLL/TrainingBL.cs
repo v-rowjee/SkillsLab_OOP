@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkillsLab_OOP.DAL.Common;
 
 namespace SkillsLab_OOP.BL
 {
@@ -18,13 +19,13 @@ namespace SkillsLab_OOP.BL
     }
     public class TrainingBL : ITrainingBL
     {
-        private readonly ITrainingDAL _trainingDAL;
+        private readonly IDAL<TrainingModel> _trainingDAL;
 
         public TrainingBL()
         {
             _trainingDAL = new TrainingDAL();
         }
-        public TrainingBL(ITrainingDAL trainingDAL)
+        public TrainingBL(IDAL<TrainingModel> trainingDAL)
         {
             _trainingDAL = trainingDAL;
         }
