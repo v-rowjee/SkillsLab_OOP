@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace SkillsLab_OOP.Models
 {
-    public class EnrollmentProofModel
+    public class ProofModel
     {
         public int Id { get; set; }
-        public int EnrollmentId { get; set; }
-        public string PreRequisite { get; set; }
+        public PreRequisiteModel PreRequisite { get; set; }
         public string Attachment {  get; set; }
     }
 }
