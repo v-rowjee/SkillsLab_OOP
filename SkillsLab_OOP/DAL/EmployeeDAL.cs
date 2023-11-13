@@ -7,31 +7,31 @@ using System.Threading.Tasks;
 
 namespace SkillsLab_OOP.DAL
 {
-    public interface IAccountDAL
+    public interface IEmployeeDAL
     {
-        IEnumerable<AccountModel> GetAll();
-        AccountModel GetById(int accountId);
-        AccountModel Update(AccountModel model);
-        bool Delete(int accountId);
+        IEnumerable<EmployeeModel> GetAll();
+        EmployeeModel GetById(int employeeId);
+        EmployeeModel Update(EmployeeModel model);
+        bool Delete(int employeeId);
     }
-    internal class AccountDAL : IAccountDAL
+    internal class EmployeeDAL : IEmployeeDAL
     {
-        public IEnumerable<AccountModel> GetAll()
+        public IEnumerable<EmployeeModel> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public AccountModel GetById(int accountId)
+        public EmployeeModel GetById(int employeeId)
         {
             throw new NotImplementedException();
         }
 
-        public AccountModel Update(AccountModel model)
+        public EmployeeModel Update(EmployeeModel model)
         {
             throw new NotImplementedException();
         }
 
-        public bool Delete(int accountId)
+        public bool Delete(int employeeId)
         {
             throw new NotImplementedException();
         }

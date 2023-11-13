@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SkillsLab_OOP.Models
 {
-    public class AccountModel
+    public class EmployeeModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

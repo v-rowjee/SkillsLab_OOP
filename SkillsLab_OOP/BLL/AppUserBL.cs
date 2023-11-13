@@ -17,17 +17,17 @@ namespace SkillsLab_OOP.BL
     public class AppUserBL : IAppUserBL
     {
         public readonly IAppUserDAL _appUserDAL;
-        public readonly IAccountDAL _accountDAL;
+        public readonly IEmployeeDAL _employeeDAL;
 
-        public AppUserBL(IAppUserDAL appUserBL, IAccountDAL accountDAL)
+        public AppUserBL(IAppUserDAL appUserBL, IEmployeeDAL accountDAL)
         {
             _appUserDAL = appUserBL;
-            _accountDAL = accountDAL;
+            _employeeDAL = accountDAL;
         }
         public AppUserBL()
         {
             _appUserDAL = new AppUserDAL();
-            _accountDAL = new AccountDAL();
+            _employeeDAL = new EmployeeDAL();
         }
 
         public bool LoginUser(LoginViewModel model)
@@ -53,7 +53,7 @@ namespace SkillsLab_OOP.BL
 
         private bool ValidateDuplicatedEmail(string email)
         {
-            var accountsWithSameEmail = _accountDAL.GetAll().Where(x => x.Email.Equals(email.Trim()));
+            var accountsWithSameEmail = _employeeDAL.GetAll().Where(x => x.Email.Equals(email.Trim()));
 
             return accountsWithSameEmail.Count() == 0;
         }
