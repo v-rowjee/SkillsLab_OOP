@@ -11,7 +11,7 @@ namespace SkillsLab_OOP.BL
 {
     public interface IAppUserBL
     {
-        bool LoginUser(LoginViewModel model);
+        bool AuthenticateUser(LoginViewModel model);
         bool RegisterUser(RegisterViewModel model);
     }
     public class AppUserBL : IAppUserBL
@@ -30,7 +30,7 @@ namespace SkillsLab_OOP.BL
             _employeeDAL = new EmployeeDAL();
         }
 
-        public bool LoginUser(LoginViewModel model)
+        public bool AuthenticateUser(LoginViewModel model)
         {
             var hashedPassword = _appUserDAL.GetHashedPassword(model);
             if (hashedPassword != null)
