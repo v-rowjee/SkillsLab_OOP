@@ -8,8 +8,8 @@ namespace SkillsLab_OOP.Enums
 {
     public enum RoleEnum
     {
-        Employee = 0,
-        Manager = 1,
-        Admin = 2
+        Employee = 1,
+        Manager = 2,
+        Admin = 3
     }
 }

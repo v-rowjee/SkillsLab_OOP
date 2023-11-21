@@ -53,7 +53,7 @@ namespace SkillsLab_OOP.BL
 
         private bool ValidateDuplicatedEmail(string email)
         {
-            var accountsWithSameEmail = _employeeDAL.GetAll().Where(x => x.Email.Equals(email.Trim()));
+            var accountsWithSameEmail = _employeeDAL.GetAllEmployees().Where(x => x.Email.Equals(email.Trim()));
 
             return accountsWithSameEmail.Count() == 0;
         }

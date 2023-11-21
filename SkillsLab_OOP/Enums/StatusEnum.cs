@@ -8,8 +8,8 @@ namespace SkillsLab_OOP.Enums
 {
     public enum StatusEnum
     {
-        Pending = 0,
-        Approved = 1,
-        Denied = 2
+        Pending = 1,
+        Approved = 2,
+        Denied = 3
     }
 }

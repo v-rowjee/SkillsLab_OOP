@@ -19,19 +19,22 @@ namespace SkillsLab_OOP.DAL
     public class AppUserDAL : IAppUserDAL
     {
         private const string AuthenticateUserQuery = @"
-            SELECT emp.*
-            FROM [dbo].[Employee] emp with(nolock) INNER JOIN [dbo].[AppUser] au with(nolock) ON emp.[EmployeeId]=au.[EmployeeId] 
-            WHERE emp.[Email] = @Email AND au.[Password] = @Password ";
+            SELECT e.*
+            FROM [dbo].[Employee] e 
+            INNER JOIN [dbo].[AppUser] a ON e.[EmployeeId]=a.[EmployeeId] 
+            WHERE a.[Email] = @Email AND a.[Password] = @Password ";
         private const string RegisterUserQuery = @"
-            INSERT INTO [dbo].[Employee] ([FirstName] ,[LastName] ,[Email], [Password], [DepartmentId], [PhoneNumber] ,[NIC], [Role])
-            VALUES (@FirstName ,@LastName, @DepartmentId ,@Email, @PhoneNumber ,@NIC, @Role);
+            INSERT [dbo].[Employee] ([FirstName] ,[LastName] ,[NIC] ,[PhoneNumber], [DepartmentId], [RoleId])
+            VALUES (@FirstName ,@LastName, @NIC, @PhoneNumber, @DepartmentId, @RoleId);
 
-            INSERT INTO [dbo].[AppUser] ([EmployeeId],[Password])
-            VALUES ( SCOPE_IDENTITY() , @Password)";
+            INSERT [dbo].[AppUser] (Email, Password, EmployeeId)
+            VALUES (@Email, @Password, @@IDENTITY)
+            ";
         private const string GetHashedPasswordQuery = @"
             SELECT Password 
-            FROM AppUser a INNER JOIN Employee e ON a.EmployeeId=e.EmployeeId
-            WHERE e.Email=@Email";
+            FROM [dbo].[AppUser] a 
+            INNER JOIN Employee e ON a.EmployeeId=e.EmployeeId
+            WHERE a.Email=@Email";
 
         public bool AuthenticateUser(LoginViewModel model)
         {
@@ -53,10 +56,10 @@ namespace SkillsLab_OOP.DAL
             parameters.Add(new SqlParameter("@Password", model.Password));
             parameters.Add(new SqlParameter("@FirstName", model.FirstName));
             parameters.Add(new SqlParameter("@LastName", model.LastName));
-            parameters.Add(new SqlParameter("@DepartmentId", model.DepartmentId));
             parameters.Add(new SqlParameter("@NIC", model.NIC));
             parameters.Add(new SqlParameter("@PhoneNumber", model.PhoneNumber));
-            parameters.Add(new SqlParameter("@Role", model.Role));
+            parameters.Add(new SqlParameter("@DepartmentId", model.DepartmentId));
+            parameters.Add(new SqlParameter("@RoleId", (int) model.Role));
 
             result = DBCommand.InsertUpdateData(RegisterUserQuery, parameters);
 

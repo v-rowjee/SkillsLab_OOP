@@ -8,8 +8,8 @@ namespace SkillsLab_OOP.Models
 {
     public class ProofModel
     {
-        public int Id { get; set; }
-        public PreRequisiteModel PreRequisite { get; set; }
+        public int ProofId { get; set; }
+        public int EnrollmentId { get; set; }
         public string Attachment {  get; set; }
     }
 }

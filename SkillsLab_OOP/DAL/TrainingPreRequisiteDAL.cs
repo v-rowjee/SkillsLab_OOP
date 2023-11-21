@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillsLab_OOP.Models
+namespace SkillsLab_OOP.DAL
 {
-    public class PreRequisiteModel
+    public class TrainingPreRequisiteDAL
     {
+        public int TrainingId { get; set; }
         public int PreRequisiteId { get; set; }
-        public string Detail { get; set; }
     }
 }

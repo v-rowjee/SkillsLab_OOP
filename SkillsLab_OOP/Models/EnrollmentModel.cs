@@ -9,11 +9,9 @@ namespace SkillsLab_OOP.Models
 {
     public class EnrollmentModel
     {
-        public int Id { get; set; }
-        public EmployeeModel Employee { get; set; }
-        public TrainingModel Training { get; set; }
-        public List<ProofModel> Proofs { get; set; }
+        public int EnrollmentId { get; set; }
+        public int EmployeeId { get; set; }
+        public int TrainingId { get; set; }
         public StatusEnum Status { get; set; }
-        public string? Comment { get; set; }
     }
 }

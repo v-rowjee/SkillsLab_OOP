@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SkillsLab_OOP.Models
 {
-    public class PreRequisiteModel
+    public class TrainingPreRequisiteModel
     {
+        public int TrainingId { get; set; }
         public int PreRequisiteId { get; set; }
-        public string Detail { get; set; }
     }
 }

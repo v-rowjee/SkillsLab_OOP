@@ -8,7 +8,7 @@ namespace SkillsLab_OOP.Models
 {
     public class DepartmentModel
     {
-        public int Id { get; set; }
+        public int DepartmentId { get; set; }
         public string Title { get; set; }
     }
 }

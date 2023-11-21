@@ -8,11 +8,11 @@ namespace SkillsLab_OOP.Models
 {
     public class TrainingModel
     {
-        public int Id { get; set; }
+        public int TrainingId { get; set; }
         public string Title { get; set; }
-        public DepartmentModel? PriorityDepartment { get; set; }
-        public int Capacity { get; set; }
-        public List<PreRequisiteModel> PreRequisites { get; set; }
         public DateTime Deadline { get; set; }
+        public int Capacity { get; set; }
+        public int? PriorityDepartmentId { get; set; }
+
     }
 }

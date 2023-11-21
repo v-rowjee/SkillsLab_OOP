@@ -12,7 +12,7 @@ namespace SkillsLab_OOP.DAL.Common
         IEnumerable<T> GetAll();
         T GetById(int id);
         bool Add(T model);
-        T Update(T model);
+        bool Update(T model);
         bool Delete(int id);
     }
 }
