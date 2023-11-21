@@ -19,10 +19,11 @@ namespace SkillsLab_OOP.DAL
     public class AppUserDAL : IAppUserDAL
     {
         private const string AuthenticateUserQuery = @"
-            SELECT e.*
+            SELECT e.EmployeeId
             FROM [dbo].[Employee] e 
             INNER JOIN [dbo].[AppUser] a ON e.[EmployeeId]=a.[EmployeeId] 
-            WHERE a.[Email] = @Email AND a.[Password] = @Password ";
+            WHERE a.[Email] = @Email AND a.[Password] = @Password 
+        ";
         private const string RegisterUserQuery = @"
             INSERT [dbo].[Employee] ([FirstName] ,[LastName] ,[NIC] ,[PhoneNumber], [DepartmentId], [RoleId])
             VALUES (@FirstName ,@LastName, @NIC, @PhoneNumber, @DepartmentId, @RoleId);

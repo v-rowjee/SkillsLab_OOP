@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SkillsLab_OOP.Models
 {
-    public class DeclinedEnrollment
+    public class DeclinedEnrollmentModel
     {
         public int DeclinedEnrollmentId { get; set; }
         public int EnrollmentId { get; set;}

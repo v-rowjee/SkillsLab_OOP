@@ -4,6 +4,7 @@ using SkillsLab_OOP.Models;
 using SkillsLab_OOP.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
@@ -12,24 +13,33 @@ using System.Threading.Tasks;
 
 namespace SkillsLab_OOP.DAL
 {
-    public interface IPreRequisite
-    {
-        IEnumerable<PreRequisiteModel> GetAllPreRequisitesByTrainingId(int trainingId);
-        bool AddPreRequisites(int trainingId, PreRequisiteModel model);
-        PreRequisiteModel UpdatePreRequisite(PreRequisiteModel model);
-        bool DeletePreRequisite(int preRequisiteId);
-        bool DeleteAllPreRequisitesByTrainingId(int trainingId);
-    }
-    public class PreRequisiteDAL : IPreRequisite
+    public class PreRequisiteDAL : IDAL<PreRequisiteModel>
     {
         private const string AddPreRequisiteQuery = @"
-            INSERT [dbo].[PreRequisite] (TrainingId, Detail) VALUES (@TrainingId, @Detail);
+            INSERT [dbo].[PreRequisite] (Detail) VALUES (@Detail);
+        ";
+        private const string GetAllPreRequisitesQuery = @"
+            SELECT PreRequisiteId, Detail
+            FROM [dbo].[PreRequisite]
+        ";
+        private const string GetPreRequisiteQuery = @"
+            SELECT PreRequisiteId, Detail
+            FROM [dbo].[PreRequisite]
+            WHERE [PreRequisiteId] = @PreRequisiteId
+        ";
+        private const string UpdatePreRequisiteQuery = @"
+            UPDATE [dbo].[PreRequisite]
+            SET Detail=@Detail
+            WHERE PreRequisiteId=@PreRequisiteId;
+        ";
+        private const string DeletePreRequisiteQuery = @"
+            DELETE FROM [dbo].[TrainingPreRequisite] WHERE PreRequisiteId=@PreRequisiteId;
+            DELETE FROM [dbo].[PreRequisite] WHERE PreRequisiteId=@PreRequisiteId
         ";
 
-        public bool AddPreRequisites(int trainingId, PreRequisiteModel model)
+        public bool Add(PreRequisiteModel model)
         {
             var parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@TrainingId", trainingId));
             parameters.Add(new SqlParameter("@Detail", model.Detail));
 
             var preRequisiteInserted = DBCommand.InsertUpdateData(AddPreRequisiteQuery, parameters);
@@ -37,24 +47,53 @@ namespace SkillsLab_OOP.DAL
             return preRequisiteInserted;
         }
 
-        public bool DeleteAllPreRequisitesByTrainingId(int trainingId)
+        public bool Delete(int PreRequisiteId)
         {
-            throw new NotImplementedException();
+            var parameter = new SqlParameter("@PreRequisiteId", PreRequisiteId);
+            return DBCommand.DeleteData(DeletePreRequisiteQuery, parameter);
         }
 
-        public bool DeletePreRequisite(int preRequisiteId)
+        public IEnumerable<PreRequisiteModel> GetAll()
         {
-            throw new NotImplementedException();
+            var PreRequisites = new List<PreRequisiteModel>();
+            PreRequisiteModel PreRequisite;
+
+            var dt = DBCommand.GetData(GetAllPreRequisitesQuery);
+            foreach (DataRow row in dt.Rows)
+            {
+                PreRequisite = new PreRequisiteModel();
+                PreRequisite.PreRequisiteId = int.Parse(row["PreRequisiteId"].ToString());
+                PreRequisite.Detail = row["Title"].ToString();
+
+                PreRequisites.Add(PreRequisite);
+            }
+            return PreRequisites;
         }
 
-        public IEnumerable<PreRequisiteModel> GetAllPreRequisitesByTrainingId(int trainingId)
+        public PreRequisiteModel GetById(int PreRequisiteId)
         {
-            throw new NotImplementedException();
+            var PreRequisite = new PreRequisiteModel();
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@PreRequisiteId", PreRequisiteId));
+
+            var dt = DBCommand.GetDataWithCondition(GetPreRequisiteQuery, parameters);
+            foreach (DataRow row in dt.Rows)
+            {
+                PreRequisite.PreRequisiteId = int.Parse(row["PreRequisiteId"].ToString());
+                PreRequisite.Detail = row["Title"].ToString();
+            }
+            return PreRequisite;
         }
 
-        public PreRequisiteModel UpdatePreRequisite(PreRequisiteModel model)
+        public bool Update(PreRequisiteModel model)
         {
-            throw new NotImplementedException();
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@PreRequisiteId", model.PreRequisiteId));
+            parameters.Add(new SqlParameter("@Title", model.Detail));
+
+            var PreRequisiteUpdated = DBCommand.InsertUpdateData(UpdatePreRequisiteQuery, parameters);
+
+            return PreRequisiteUpdated;
         }
     }
 }
