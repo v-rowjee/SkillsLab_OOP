@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SkillsLab_OOP.DAL
 {
-    public class TrainingPreRequisitePreRequisiteDAL : IDAL<PreRequisiteModel>
+    public class TrainingPreRequisitePreRequisiteDAL : IDAL<TrainingPreRequisiteModel>
     {
         private const string GetTrainingPreRequisiteQuery = @"
             SELECT TrainingId, PreRequisiteId
