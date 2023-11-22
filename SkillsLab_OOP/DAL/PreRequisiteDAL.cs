@@ -89,7 +89,7 @@ namespace SkillsLab_OOP.DAL
         {
             var parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@PreRequisiteId", model.PreRequisiteId));
-            parameters.Add(new SqlParameter("@Title", model.Detail));
+            parameters.Add(new SqlParameter("@Detail", model.Detail));
 
             var PreRequisiteUpdated = DBCommand.InsertUpdateData(UpdatePreRequisiteQuery, parameters);
 

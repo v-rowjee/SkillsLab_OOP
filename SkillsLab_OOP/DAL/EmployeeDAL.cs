@@ -59,7 +59,7 @@ namespace SkillsLab_OOP.DAL
                 employee.NIC = row["NIC"].ToString();
                 employee.PhoneNumber = row["PhoneNumber"].ToString();
                 employee.DepartmentId = int.Parse(row["DepartmentId"].ToString());
-                employee.RoleId = int.Parse(row["Type"].ToString());
+                employee.Role = (RoleEnum) int.Parse(row["RoleId"].ToString());
 
                 employees.Add(employee);
             }
@@ -82,7 +82,7 @@ namespace SkillsLab_OOP.DAL
                 employee.NIC = row["NIC"].ToString();
                 employee.PhoneNumber = row["PhoneNumber"].ToString();
                 employee.DepartmentId = int.Parse(row["DepartmentId"].ToString());
-                employee.RoleId = int.Parse(row["Type"].ToString());
+                employee.Role = (RoleEnum)int.Parse(row["RoleId"].ToString());
             }
 
             return employee;
@@ -97,7 +97,7 @@ namespace SkillsLab_OOP.DAL
             parameters.Add(new SqlParameter("@NIC", model.NIC));
             parameters.Add(new SqlParameter("@PhoneNumber", model.PhoneNumber));
             parameters.Add(new SqlParameter("@DepartmentId", model.DepartmentId));
-            parameters.Add(new SqlParameter("@RoleId", model.RoleId));
+            parameters.Add(new SqlParameter("@RoleId", (int) model.Role));
 
             var isValid = DBCommand.InsertUpdateData(UpdateEmployeeQuery, parameters);
 
