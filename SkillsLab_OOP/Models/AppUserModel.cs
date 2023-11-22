@@ -11,6 +11,6 @@ namespace SkillsLab_OOP.Models
         public int AppUserId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public int EmployeeId { get; set; }
+        public EmployeeModel Employee { get; set; }
     }
 }

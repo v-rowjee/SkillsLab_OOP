@@ -14,7 +14,7 @@ namespace SkillsLab_OOP.Models
         public string LastName { get; set; }
         public string NIC { get; set; }
         public string PhoneNumber { get; set; }
-        public int DepartmentId { get; set; }
+        public DepartmentModel Department { get; set; }
         public RoleEnum Role { get; set; }
     }
 }

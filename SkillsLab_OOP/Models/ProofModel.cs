@@ -9,7 +9,6 @@ namespace SkillsLab_OOP.Models
     public class ProofModel
     {
         public int ProofId { get; set; }
-        public int EnrollmentId { get; set; }
         public string Attachment {  get; set; }
     }
 }

@@ -29,8 +29,10 @@ namespace SkillsLab_OOP.DAL
             WHERE a.[Email] = @Email
         ";
         private const string GetAllEmployeesQuery = @"
-            SELECT EmployeeId, FirstName, LastName, NIC, PhoneNumber, DepartmentId, RoleId
-            FROM Employee
+            SELECT EmployeeId, FirstName, LastName, NIC, PhoneNumber, e.DepartmentId, d.Title , RoleId
+            FROM Employee e
+            INNER JOIN Department d
+            ON e.DepartmentId = d.DepartmentId
         ";
         private const string UpdateEmployeeQuery = @"
             UPDATE Employee
@@ -58,7 +60,12 @@ namespace SkillsLab_OOP.DAL
                 employee.LastName = row["LastName"].ToString();
                 employee.NIC = row["NIC"].ToString();
                 employee.PhoneNumber = row["PhoneNumber"].ToString();
-                employee.DepartmentId = int.Parse(row["DepartmentId"].ToString());
+
+                var department = new DepartmentModel();
+                department.DepartmentId = int.Parse(row["DepartmentId"].ToString());
+                department.Title = row["Title"].ToString();
+                employee.Department = department;                
+
                 employee.Role = (RoleEnum) int.Parse(row["RoleId"].ToString());
 
                 employees.Add(employee);
@@ -81,7 +88,12 @@ namespace SkillsLab_OOP.DAL
                 employee.LastName = row["LastName"].ToString();
                 employee.NIC = row["NIC"].ToString();
                 employee.PhoneNumber = row["PhoneNumber"].ToString();
-                employee.DepartmentId = int.Parse(row["DepartmentId"].ToString());
+
+                var department = new DepartmentModel();
+                department.DepartmentId = int.Parse(row["DepartmentId"].ToString());
+                department.Title = row["Title"].ToString();
+                employee.Department = department;
+
                 employee.Role = (RoleEnum)int.Parse(row["RoleId"].ToString());
             }
 
@@ -96,7 +108,7 @@ namespace SkillsLab_OOP.DAL
             parameters.Add(new SqlParameter("@LastName", model.LastName));
             parameters.Add(new SqlParameter("@NIC", model.NIC));
             parameters.Add(new SqlParameter("@PhoneNumber", model.PhoneNumber));
-            parameters.Add(new SqlParameter("@DepartmentId", model.DepartmentId));
+            parameters.Add(new SqlParameter("@DepartmentId", model.Department.DepartmentId));
             parameters.Add(new SqlParameter("@RoleId", (int) model.Role));
 
             var isValid = DBCommand.InsertUpdateData(UpdateEmployeeQuery, parameters);

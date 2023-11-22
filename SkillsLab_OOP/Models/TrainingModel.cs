@@ -12,7 +12,8 @@ namespace SkillsLab_OOP.Models
         public string Title { get; set; }
         public DateTime Deadline { get; set; }
         public int Capacity { get; set; }
-        public int? PriorityDepartmentId { get; set; }
+        public DepartmentModel? PriorityDepartment { get; set; }
+        public List<PreRequisiteModel>? PreRequisites { get; set; }
 
     }
 }
