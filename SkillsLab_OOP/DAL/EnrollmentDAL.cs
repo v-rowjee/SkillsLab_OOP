@@ -24,13 +24,21 @@ namespace SkillsLab_OOP.DAL
     public class EnrollmentDAL : IEnrollmentDAL
     {
         private const string GetEnrollmentQuery = @"
-            SELECT EnrollmentId, EmployeeId, EnrollmentId, StatusId
-            FROM [dbo].[Enrollment]
-            WHERE [EnrollmentId] = @EnrollmentId
+            SELECT e.EnrollmentId, e.EmployeeId, e.TrainingId, e.StatusId, emp.FirstName, emp.LastName, emp.NIC, emp.PhoneNumber, emp.DepartmentId, ed.Title, emp.RoleId, t.Title, t.Deadline, t.Capacity, t.PriorityDepartmentId, td.Title
+            FROM [dbo].[Enrollment] as e
+            INNER JOIN Employee emp ON e.EmployeeId=emp.EmployeeId
+            INNER JOIN Department ed ON emp.DepartmentId=ed.DepartmentId
+            INNER JOIN Training t ON e.TrainingId=t.TrainingId
+            INNER JOIN Department td ON t.TrainingDepartmentId=td.DepartmentId
+            WHERE EnrollmentId=@EnrollmentId
         ";
         private const string GetAllEnrollmentsQuery = @"
-            SELECT EnrollmentId, EmployeeId, EnrollmentId, StatusId
-            FROM [dbo].[Enrollment]
+            SELECT e.EnrollmentId, e.EmployeeId, e.TrainingId, e.StatusId, emp.FirstName, emp.LastName, emp.NIC, emp.PhoneNumber, emp.DepartmentId, ed.Title, emp.RoleId, t.Title, t.Deadline, t.Capacity, t.PriorityDepartmentId, td.Title
+            FROM [dbo].[Enrollment] as e
+            INNER JOIN Employee emp ON e.EmployeeId=emp.EmployeeId
+            INNER JOIN Department ed ON emp.DepartmentId=ed.DepartmentId
+            INNER JOIN Training t ON e.TrainingId=t.TrainingId
+            INNER JOIN Department td ON t.TrainingDepartmentId=td.DepartmentId
         ";
         private const string GetAllProofsQuery = @"
             SELECT ProofId, Attachment
@@ -43,7 +51,13 @@ namespace SkillsLab_OOP.DAL
             WHERE EnrollmentId = @EnrollmentId
         ";
         private const string AddEnrollmentQuery = @"
-            INSERT [dbo].[Enrollment] (EmployeeId, EnrollmentId, StatusId) VALUES (@EmployeeId, @EnrollmentId, @StatusId);
+            INSERT [dbo].[Enrollment] (EmployeeId, TrainingId, StatusId) VALUES (@EmployeeId, @TrainingId, @StatusId);
+        ";
+        private const string AddProofQuery = @"
+            INSERT [dbo].[Proof] (EnrollmentId, Attachment) VALUES (@EnrollmentId, @Attachment);
+        ";
+        private const string AddDeclinedEnrolment = @"
+            INSERT [dbo].[DeclinedEnrolment] (EnrollmentId, Reason) VALUES (@EnrollmentId, @Reason);
         ";
         private const string UpdateEnrollmentQuery = @"
             UPDATE [dbo].[Enrollment]
@@ -118,7 +132,7 @@ namespace SkillsLab_OOP.DAL
             return Enrollments;
         }
 
-        public EnrollmentModel GetEnrollmentById(int EnrollmentId)
+        public EnrollmentModel GetEnrollmentById(int enrollmentId)
         {
             var enrollment = new EnrollmentModel();
             var parameters = new List<SqlParameter> { new SqlParameter("@EnrollemntId", enrollment.EnrollmentId) };
@@ -148,7 +162,7 @@ namespace SkillsLab_OOP.DAL
                 training.Capacity = int.Parse(row["Capacity"].ToString());
 
                 var trainingdepartment = new DepartmentModel();
-                trainingdepartment.DepartmentId = int.Parse(row["TrainingDepartmentId"].ToString());
+                trainingdepartment.DepartmentId = int.Parse(row["PriorityDepartmentId"].ToString());
                 trainingdepartment.Title = row["Title"].ToString();
                 training.PriorityDepartment = trainingdepartment;
                 enrollment.Training = training;
@@ -179,23 +193,56 @@ namespace SkillsLab_OOP.DAL
         public bool AddEnrollment(EnrollmentModel model)
         {
             var parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@Employee", model.Employee));
-            parameters.Add(new SqlParameter("@Training", model.Training));
-            parameters.Add(new SqlParameter("@Proofs", model.Proofs));
-            parameters.Add(new SqlParameter("@Status", model.Status));
+            parameters.Add(new SqlParameter("@EmployeeId", model.Employee.EmployeeId));
+            parameters.Add(new SqlParameter("@FirstName", model.Employee.FirstName));
+            parameters.Add(new SqlParameter("@LastName", model.Employee.LastName));
+            parameters.Add(new SqlParameter("@NIC", model.Employee.NIC));
+            parameters.Add(new SqlParameter("@PhoneNumber", model.Employee.PhoneNumber));
+            parameters.Add(new SqlParameter("@DepartmentId", model.Employee.Department.DepartmentId));
+            parameters.Add(new SqlParameter("@RoleId", (int)model.Employee.Role));
+
+            parameters.Add(new SqlParameter("@TrainingId", model.Training.TrainingId));
+            parameters.Add(new SqlParameter("@Deadline", model.Training.Deadline));
+            parameters.Add(new SqlParameter("@Capacity", model.Training.Capacity));
+            parameters.Add(new SqlParameter("@PriorityDepartmentId", model.Training.PriorityDepartment.DepartmentId));
+
+            parameters.Add(new SqlParameter("@StatusId", (int) model.Status));
+
+            if(model.Proofs != null)
+            {
+                foreach (var proof in model.Proofs)
+                {
+                    var parameters2 = new List<SqlParameter>();
+                    parameters2.Add(new SqlParameter("@EnrollmentId", model.EnrollmentId));
+                    parameters2.Add(new SqlParameter("@Attachment", proof.Attachment));
+
+                    DBCommand.InsertUpdateData(AddProofQuery, parameters2);
+                }
+            }
+            
 
             var EnrollmentInserted = DBCommand.InsertUpdateData(AddEnrollmentQuery, parameters);
 
             return EnrollmentInserted;
         }
 
+        public bool AddDeclineEnrollment(EnrollmentModel model)
+        {
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@EnrollmentId", model.EnrollmentId));
+            parameters.Add(new SqlParameter("@Reason", model.ReasonForDecline));
+
+            var DeclinedEnrollmentInserted = DBCommand.InsertUpdateData(AddEnrollmentQuery, parameters);
+
+            return DeclinedEnrollmentInserted;
+        }
+
         public bool UpdateEnrollment(EnrollmentModel model)
         {
             var parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@EnrollmentId", model.EnrollmentId));
-            parameters.Add(new SqlParameter("@Title", model.EmployeeId));
-            parameters.Add(new SqlParameter("@Deadline", model.TrainingId));
-            parameters.Add(new SqlParameter("@Capacity", model.Status));
+            parameters.Add(new SqlParameter("@Status", (int) model.Status));
+
 
             var EnrollmentUpdated = DBCommand.InsertUpdateData(UpdateEnrollmentQuery, parameters);
 
