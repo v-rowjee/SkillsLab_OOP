@@ -18,6 +18,7 @@ namespace SkillsLab_OOP.DAL
         IEnumerable<EnrollmentModel> GetAllEnrollments();
         EnrollmentModel GetEnrollmentById(int enrollmentId);
         bool AddEnrollment(EnrollmentModel model);
+        bool AddDeclinedEnrollment(EnrollmentModel model);
         bool UpdateEnrollment(EnrollmentModel model);
         bool DeleteEnrollment(int enrollmentId);
     }
@@ -226,13 +227,13 @@ namespace SkillsLab_OOP.DAL
             return EnrollmentInserted;
         }
 
-        public bool AddDeclineEnrollment(EnrollmentModel model)
+        public bool AddDeclinedEnrollment(EnrollmentModel model)
         {
             var parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@EnrollmentId", model.EnrollmentId));
             parameters.Add(new SqlParameter("@Reason", model.ReasonForDecline));
 
-            var DeclinedEnrollmentInserted = DBCommand.InsertUpdateData(AddEnrollmentQuery, parameters);
+            var DeclinedEnrollmentInserted = DBCommand.InsertUpdateData(AddDeclinedEnrolment, parameters);
 
             return DeclinedEnrollmentInserted;
         }
