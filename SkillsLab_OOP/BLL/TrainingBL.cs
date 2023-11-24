@@ -19,13 +19,13 @@ namespace SkillsLab_OOP.BL
     }
     public class TrainingBL : ITrainingBL
     {
-        private readonly IDAL<TrainingModel> _trainingDAL;
+        private readonly TrainingDAL _trainingDAL;
 
         public TrainingBL()
         {
             _trainingDAL = new TrainingDAL();
         }
-        public TrainingBL(IDAL<TrainingModel> trainingDAL)
+        public TrainingBL(TrainingDAL trainingDAL)
         {
             _trainingDAL = trainingDAL;
         }

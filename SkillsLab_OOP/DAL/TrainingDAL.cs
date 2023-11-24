@@ -56,6 +56,22 @@ namespace SkillsLab_OOP.DAL
             DELETE FROM [dbo].[Enrollment] WHERE TrainingId=@TrainingId;
             DELETE FROM [dbo].[Training] WHERE TrainingId=@TrainingId
         ";
+
+        private const string AddPreRequisiteQuery = @"
+            DECLARE @PreRequisiteId INT
+            IF EXISTS (SELECT @PreRequisiteId=PreRequisiteId from PreRequisite WHERE Detail = @Detail)
+            BEGIN
+                INSERT TrainingPreRequisite (TrainingId, PreRequisiteId) VALUES (@TrainingId,@PreRequisiteId)
+            ELSE
+                INSERT [dbo].[PreRequisite] (Detail) VALUES (@Detail)
+                INSERT TrainingPreRequisite (TrainingId, PreRequisiteId) VALUES (@TrainingId,@@IDENTITY)
+            END
+        ";
+
+        private const string DeletePreRequisiteQuery = @"
+            DELETE FROM [dbo].[TrainingPreRequisite] WHERE PreRequisiteId=@PreRequisiteId
+            DELETE FROM [dbo].[PreRequisite] WHERE PreRequisiteId=@PreRequisiteId
+        ";
         public IEnumerable<TrainingModel> GetAllTrainings()
         {
             var trainings = new List<TrainingModel>();
@@ -159,6 +175,22 @@ namespace SkillsLab_OOP.DAL
         {
             var parameter = new SqlParameter("@TrainingId", trainingId);
             return DBCommand.DeleteData(DeleteTrainingQuery, parameter);
+        }
+
+        public bool AddPreRequisite(PreRequisiteModel model)
+        {
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@TrainingId", model.TrainingId));
+            parameters.Add(new SqlParameter("@Detail", model.Detail.Trim()));
+
+            var PreRequisiteInserted = DBCommand.InsertUpdateData(AddPreRequisiteQuery, parameters);
+            return PreRequisiteInserted;
+        }
+
+        public bool DeletePreRequisite(int preRequisiteId)
+        {
+            var parameter = new SqlParameter("PreRequisiteId", preRequisiteId);
+            return DBCommand.DeleteData(DeletePreRequisiteQuery, parameter);
         }
     }
 }

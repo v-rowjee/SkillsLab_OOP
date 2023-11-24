@@ -19,13 +19,13 @@ namespace SkillsLab_OOP.BL
     }
     public class EnrollmentBL : IEnrollmentBL
     {
-        private readonly IDAL<EnrollmentModel> _enrollmentDAL;
+        private readonly IEnrollmentDAL _enrollmentDAL;
 
         public EnrollmentBL()
         {
             _enrollmentDAL = new EnrollmentDAL();
         }
-        public EnrollmentBL(IDAL<EnrollmentModel> enrollmentDAL)
+        public EnrollmentBL(IEnrollmentDAL enrollmentDAL)
         {
             _enrollmentDAL = enrollmentDAL;
         }
