@@ -16,7 +16,7 @@ namespace SkillsLab_OOP.DAL
         bool AuthenticateUser(LoginViewModel model);
         bool RegisterUser(RegisterViewModel model);
         string GetHashedPassword(LoginViewModel model);
-        IEnumerable<string> GetAllAppUserEmail();
+        bool GetAllAppUserEmail();
     }
     public class AppUserDAL : IAppUserDAL
     {
@@ -91,15 +91,10 @@ namespace SkillsLab_OOP.DAL
             return hashedPassword;
         }
 
-        public IEnumerable<string> GetAllAppUserEmail()
+        public bool GetAllAppUserEmail()
         {
-            var emails = new List<string>(); 
             var dt = DBCommand.GetData(GetAllAppUserEmails);
-            foreach(DataRow row in dt.Rows)
-            {
-                emails.Add(row["Email"].ToString());
-            }
-            return emails;
+            return dt.Rows.Count > 0;
         }
     }
 }
