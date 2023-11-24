@@ -9,7 +9,7 @@ namespace SkillsLab_OOP.DAL.Common
     public class DAL
     {
         // public const string connectionString = @"server=jedicarpooldbserver.database.windows.net;database=JEDICarpool_db;uid=wbpoc;pwd=sql@tfs2008";
-        public const string CONNECTION_STRING = @"server=localhost;database=SkillsLabDB;";
+        public const string CONNECTION_STRING = @"server=localhost;database=SkillsLabDB;uid=wbpoc;pwd=sql@tfs2008";
 
         public SqlConnection Connection;
 
