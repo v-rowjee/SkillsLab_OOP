@@ -23,7 +23,7 @@ namespace SkillsLab_OOP.DAL
     public class EmployeeDAL : IEmployeeDAL
     {
         private const string GetEmployeeQuery = @"
-            SELECT e.EmployeeId, e.FirstName, e.LastName, e.NIC, e.PhoneNumber, e.DepartmentId, e.RoleId, 
+            SELECT e.EmployeeId, e.FirstName, e.LastName, e.NIC, e.PhoneNumber, e.DepartmentId, e.RoleId 
             FROM [dbo].[Employee] as e
             INNER JOIN [dbo].[AppUser] as a ON e.EmployeeId = a.EmployeeId
             WHERE a.[Email] = @Email

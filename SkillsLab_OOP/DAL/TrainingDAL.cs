@@ -10,6 +10,7 @@ using SkillsLab_OOP.BL;
 using System.Data.SqlClient;
 using System.Reflection;
 using SkillsLab_OOP.Models.ViewModels;
+using System.Data.SqlTypes;
 
 namespace SkillsLab_OOP.DAL
 {
@@ -26,23 +27,22 @@ namespace SkillsLab_OOP.DAL
     public class TrainingDAL : ITrainingDAL
     {
         private const string GetTrainingQuery = @"
-            SELECT TrainingId, Title, Deadline, Capacity, t.PriorityDepartmentId, d.Title
+            SELECT t.TrainingId, t.Title, t.Deadline, t.Capacity, t.PriorityDepartmentId, d.Title as DeptTitle
             FROM [dbo].[Training] as t 
             INNER JOIN department as d
             ON t.PriorityDepartmentId = d.DepartmentId
             WHERE [TrainingId] = @TrainingId
         ";
         private const string GetAllTrainingsQuery = @"
-            SELECT TrainingId, Title, Deadline, Capacity, t.PriorityDepartmentId, d.Title
+            SELECT t.TrainingId, t.Title, t.Deadline, t.Capacity, t.PriorityDepartmentId, d.Title as DeptTitle
             FROM [dbo].[Training] as t 
             INNER JOIN department as d
             ON t.PriorityDepartmentId = d.DepartmentId
         ";
         private const string GetAllPreRequisitesQuery = @"
-            SELECT tp.PreRequisiteId, p.Detail
-            FROM TrainingPreRequisite as tp
-            INNER JOIN PreRequisite as p
-            ON tp.PreRequisiteId = p.PreRequisiteId
+            SELECT p.PreRequisiteId, p.Detail
+            FROM PreRequisite as p
+            INNER JOIN TrainingPreRequisite as tp ON p.PreRequisiteId = tp.PreRequisiteId
             WHERE tp.TrainingId = @TrainingId
         ";
         private const string AddTrainingQuery = @"
@@ -85,22 +85,23 @@ namespace SkillsLab_OOP.DAL
                 training = new TrainingModel();
                 training.TrainingId = int.Parse(row["TrainingId"].ToString());
                 training.Title = row["Title"].ToString();
-                training.Deadline = DateTime.Parse(row["Datetime"].ToString());
+                training.Deadline = DateTime.Parse(row["Deadline"].ToString());
                 training.Capacity = int.Parse(row["Capacity"].ToString());
 
                 var department = new DepartmentModel();
-                department.DepartmentId = int.Parse(row["DepartmentId"].ToString());
-                department.Title = row["Title"].ToString();
+                department.DepartmentId = int.Parse(row["PriorityDepartmentId"].ToString());
+                department.Title = row["DeptTitle"].ToString();
                 training.PriorityDepartment = department;
 
                 var preRequisites = new List<PreRequisiteModel>();
                 PreRequisiteModel preRequisite = new PreRequisiteModel();
-                var dt2 = DBCommand.GetData(GetAllPreRequisitesQuery);
+                var parameters2 = new List<SqlParameter> { new SqlParameter("@TrainingId", training.TrainingId) };
+                var dt2 = DBCommand.GetDataWithCondition(GetAllPreRequisitesQuery, parameters2);
                 foreach (DataRow row2 in dt2.Rows)
                 {
                     preRequisite = new PreRequisiteModel();
-                    preRequisite.PreRequisiteId = int.Parse(row["PreRequisiteId"].ToString());
-                    preRequisite.Detail = row["Detail"].ToString();
+                    preRequisite.PreRequisiteId = int.Parse(row2["PreRequisiteId"].ToString());
+                    preRequisite.Detail = row2["Detail"].ToString();
 
                     preRequisites.Add(preRequisite);
                 }
@@ -122,22 +123,23 @@ namespace SkillsLab_OOP.DAL
             {
                 training.TrainingId = int.Parse(row["TrainingId"].ToString());
                 training.Title = row["Title"].ToString();
-                training.Deadline = DateTime.Parse(row["Datetime"].ToString());
+                training.Deadline = DateTime.Parse(row["Deadline"].ToString());
                 training.Capacity = int.Parse(row["Capacity"].ToString());
 
                 var department = new DepartmentModel();
-                department.DepartmentId = int.Parse(row["DepartmentId"].ToString());
-                department.Title = row["Title"].ToString();
+                department.DepartmentId = int.Parse(row["PriorityDepartmentId"].ToString());
+                department.Title = row["DeptTitle"].ToString();
                 training.PriorityDepartment = department;
 
                 var preRequisites = new List<PreRequisiteModel>();
                 PreRequisiteModel preRequisite = new PreRequisiteModel();
-                var dt2 = DBCommand.GetData(GetAllPreRequisitesQuery);
+                var parameters2 = new List<SqlParameter> { new SqlParameter("@TrainingId",trainingId) };
+                var dt2 = DBCommand.GetDataWithCondition(GetAllPreRequisitesQuery,parameters2);
                 foreach (DataRow row2 in dt2.Rows)
                 {
                     preRequisite = new PreRequisiteModel();
-                    preRequisite.PreRequisiteId = int.Parse(row["PreRequisiteId"].ToString());
-                    preRequisite.Detail = row["Detail"].ToString();
+                    preRequisite.PreRequisiteId = int.Parse(row2["PreRequisiteId"].ToString());
+                    preRequisite.Detail = row2["Detail"].ToString();
 
                     preRequisites.Add(preRequisite);
                 }

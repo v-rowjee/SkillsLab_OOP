@@ -25,21 +25,21 @@ namespace SkillsLab_OOP.DAL
     public class EnrollmentDAL : IEnrollmentDAL
     {
         private const string GetEnrollmentQuery = @"
-            SELECT e.EnrollmentId, e.EmployeeId, e.TrainingId, e.StatusId, emp.FirstName, emp.LastName, emp.NIC, emp.PhoneNumber, emp.DepartmentId, ed.Title, emp.RoleId, t.Title, t.Deadline, t.Capacity, t.PriorityDepartmentId, td.Title
-            FROM [dbo].[Enrollment] as e
+            SELECT e.EnrollmentId, e.EmployeeId, e.TrainingId, e.StatusId, emp.FirstName, emp.LastName, emp.NIC, emp.PhoneNumber, emp.DepartmentId, ed.Title, emp.RoleId, t.Title as TrainingTitle, t.Deadline, t.Capacity, t.PriorityDepartmentId, td.Title as TrainingDepartmentTitle
+            FROM [dbo].[Enrollment] e
             INNER JOIN Employee emp ON e.EmployeeId=emp.EmployeeId
             INNER JOIN Department ed ON emp.DepartmentId=ed.DepartmentId
             INNER JOIN Training t ON e.TrainingId=t.TrainingId
-            INNER JOIN Department td ON t.TrainingDepartmentId=td.DepartmentId
+            INNER JOIN Department td ON t.PriorityDepartmentId=td.DepartmentId
             WHERE EnrollmentId=@EnrollmentId
         ";
         private const string GetAllEnrollmentsQuery = @"
-            SELECT e.EnrollmentId, e.EmployeeId, e.TrainingId, e.StatusId, emp.FirstName, emp.LastName, emp.NIC, emp.PhoneNumber, emp.DepartmentId, ed.Title, emp.RoleId, t.Title, t.Deadline, t.Capacity, t.PriorityDepartmentId, td.Title
+            SELECT e.EnrollmentId, e.EmployeeId, e.TrainingId, e.StatusId, emp.FirstName, emp.LastName, emp.NIC, emp.PhoneNumber, emp.DepartmentId, ed.Title, emp.RoleId, t.Title as TrainingTitle, t.Deadline, t.Capacity, t.PriorityDepartmentId, td.Title as TrainingDepartmentTitle
             FROM [dbo].[Enrollment] as e
             INNER JOIN Employee emp ON e.EmployeeId=emp.EmployeeId
             INNER JOIN Department ed ON emp.DepartmentId=ed.DepartmentId
             INNER JOIN Training t ON e.TrainingId=t.TrainingId
-            INNER JOIN Department td ON t.TrainingDepartmentId=td.DepartmentId
+            INNER JOIN Department td ON t.PriorityDepartmentId=td.DepartmentId
         ";
         private const string GetAllProofsQuery = @"
             SELECT ProofId, Attachment
@@ -48,7 +48,7 @@ namespace SkillsLab_OOP.DAL
         ";
         private const string GetAllReasonsQuery = @"
             SELECT Reason
-            FROM DeclinedEnrollemnt
+            FROM DeclinedEnrollment
             WHERE EnrollmentId = @EnrollmentId
         ";
         private const string AddEnrollmentQuery = @"
@@ -96,13 +96,13 @@ namespace SkillsLab_OOP.DAL
 
                 var training = new TrainingModel();
                 training.TrainingId = int.Parse(row["TrainingId"].ToString());
-                training.Title = row["Title"].ToString();
+                training.Title = row["TrainingTitle"].ToString();
                 training.Deadline = DateTime.Parse(row["Datetime"].ToString());
                 training.Capacity = int.Parse(row["Capacity"].ToString());
 
                 var trainingdepartment = new DepartmentModel();
                 trainingdepartment.DepartmentId = int.Parse(row["TrainingDepartmentId"].ToString());
-                trainingdepartment.Title = row["Title"].ToString();
+                trainingdepartment.Title = row["TrainingDepartmentTitle"].ToString();
                 training.PriorityDepartment = trainingdepartment;
                 enrollment.Training = training;
 
@@ -158,13 +158,13 @@ namespace SkillsLab_OOP.DAL
 
                 var training = new TrainingModel();
                 training.TrainingId = int.Parse(row["TrainingId"].ToString());
-                training.Title = row["Title"].ToString();
+                training.Title = row["TrainingTitle"].ToString();
                 training.Deadline = DateTime.Parse(row["Datetime"].ToString());
                 training.Capacity = int.Parse(row["Capacity"].ToString());
 
                 var trainingdepartment = new DepartmentModel();
                 trainingdepartment.DepartmentId = int.Parse(row["PriorityDepartmentId"].ToString());
-                trainingdepartment.Title = row["Title"].ToString();
+                trainingdepartment.Title = row["TrainingDepartmentTitle"].ToString();
                 training.PriorityDepartment = trainingdepartment;
                 enrollment.Training = training;
 
