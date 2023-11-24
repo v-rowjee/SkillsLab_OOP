@@ -20,6 +20,8 @@ namespace SkillsLab_OOP.DAL
         bool AddTraining(TrainingModel model);
         bool UpdateTraining(TrainingModel model);
         bool DeleteTraining(int trainingId);
+        bool AddPreRequisite(PreRequisiteModel model);
+        bool DeletePreRequisite(int preRequisiteId);
     }
     public class TrainingDAL : ITrainingDAL
     {

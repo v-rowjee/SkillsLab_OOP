@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace SkillsLab_OOP.DAL
@@ -15,6 +16,7 @@ namespace SkillsLab_OOP.DAL
         bool AuthenticateUser(LoginViewModel model);
         bool RegisterUser(RegisterViewModel model);
         string GetHashedPassword(LoginViewModel model);
+        bool GetAllAppUserEmail();
     }
     public class AppUserDAL : IAppUserDAL
     {
@@ -36,6 +38,11 @@ namespace SkillsLab_OOP.DAL
             FROM [dbo].[AppUser] a 
             INNER JOIN Employee e ON a.EmployeeId=e.EmployeeId
             WHERE a.Email=@Email";
+
+        private const string GetAllAppUserEmails = @"
+            SELECT Email
+            FROM AppUser
+        ";
 
         public bool AuthenticateUser(LoginViewModel model)
         {
@@ -84,5 +91,10 @@ namespace SkillsLab_OOP.DAL
             return hashedPassword;
         }
 
+        public bool GetAllAppUserEmail()
+        {
+            var dt = DBCommand.GetData(GetAllAppUserEmails);
+            return dt.Rows.Count > 0;
+        }
     }
 }
